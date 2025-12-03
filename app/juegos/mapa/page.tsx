@@ -11,10 +11,10 @@ import {
   Play, 
   BookOpen,
   Type, 
-  Ear,
   BrainCircuit, 
   MessageCircle,
-  BookCheck
+  BookCheck,
+  X
 } from "lucide-react";
 
 // Importamos la utilidad para leer puntajes
@@ -37,7 +37,7 @@ interface ItemJuego {
 
 export default function MapaJuegosPage() {
   return (
-    <Suspense fallback={<div>Cargando mapa...</div>}>
+    <Suspense fallback={<div className="min-h-screen bg-black flex items-center justify-center text-cyan-400">Cargando mapa estelar...</div>}>
       <MapaContent />
     </Suspense>
   );
@@ -69,19 +69,20 @@ function MapaContent() {
   // LÓGICA DEL ÁRBOL DE JUEGOS
   // ------------------------------------------
 
+  // COLORES NEÓN ESPACIALES
   const colors = {
-    purple: "bg-purple-300 border-purple-500 shadow-purple-200",
-    blue:   "bg-sky-300 border-sky-500 shadow-sky-200",
-    teal:   "bg-teal-300 border-teal-500 shadow-teal-200",
-    orange: "bg-orange-300 border-orange-500 shadow-orange-200",
-    red:    "bg-rose-300 border-rose-500 shadow-rose-200",
-    pink:   "bg-pink-300 border-pink-500 shadow-pink-200",
-    indigo: "bg-indigo-300 border-indigo-500 shadow-indigo-200",
-    green:  "bg-emerald-300 border-emerald-500 shadow-emerald-200",
+    purple: "bg-purple-600 border-purple-400 shadow-[0_0_25px_rgba(168,85,247,0.6)]",
+    blue:   "bg-blue-600 border-blue-400 shadow-[0_0_25px_rgba(59,130,246,0.6)]",
+    teal:   "bg-cyan-600 border-cyan-400 shadow-[0_0_25px_rgba(6,182,212,0.6)]",
+    orange: "bg-orange-500 border-orange-300 shadow-[0_0_25px_rgba(249,115,22,0.6)]",
+    red:    "bg-red-600 border-red-400 shadow-[0_0_25px_rgba(220,38,38,0.6)]",
+    pink:   "bg-pink-600 border-pink-400 shadow-[0_0_25px_rgba(236,72,153,0.6)]",
+    indigo: "bg-indigo-600 border-indigo-400 shadow-[0_0_25px_rgba(99,102,241,0.6)]",
+    green:  "bg-emerald-600 border-emerald-400 shadow-[0_0_25px_rgba(16,185,129,0.6)]",
   };
 
   // ------------------------------------------
-  // ÁREAS
+  // ÁREAS (Lógica idéntica, solo cambian los iconos/colores si quieres)
   // ------------------------------------------
 
   const obtenerNodos = (area: string | null, edadUsuario: number): ItemJuego[] => {
@@ -161,114 +162,160 @@ function MapaContent() {
 
     if (score) {
       return (
-        <div className="absolute -bottom-2 bg-white flex items-center gap-1 px-3 py-1 rounded-full border border-emerald-200 shadow-sm">
-          <span className="text-xs font-black text-emerald-600">
+        <div className="absolute -bottom-3 bg-slate-900 flex items-center gap-1 px-2 py-1 rounded-full border border-green-500 shadow-[0_0_10px_rgba(34,197,94,0.5)]">
+          <span className="text-[10px] font-black text-green-400">
             {score.aciertos}/{score.total}
           </span>
         </div>
       );
     } else {
       return (
-        <div className="absolute -bottom-2 bg-white flex gap-0.5 px-2 py-1 rounded-full border border-gray-200 shadow-sm">
-          <Star className="w-3 h-3 text-gray-300" />
-          <Star className="w-3 h-3 text-gray-300" />
+        <div className="absolute -bottom-3 bg-slate-900 flex gap-0.5 px-2 py-1 rounded-full border border-slate-700">
+          <Star className="w-2.5 h-2.5 text-slate-600" />
+          <Star className="w-2.5 h-2.5 text-slate-600" />
         </div>
       );
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAFF] flex flex-col items-center font-sans">
+    // FONDO: El mismo gradiente espacial oscuro
+    <div className="min-h-screen bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-[#1e1b4b] via-[#0f172a] to-black flex flex-col items-center font-sans relative overflow-hidden">
 
-      {/* HEADER */}
-      <div className="sticky top-0 z-40 w-full max-w-md bg-white/80 backdrop-blur-md border-b border-pink-200 p-4 flex items-center justify-between shadow-sm">
-        <button 
-          onClick={() => router.back()}
-          className="p-2 rounded-full bg-pink-100 hover:bg-pink-200 transition"
-        >
-            <ArrowLeft className="w-6 h-6 text-pink-600" />
-        </button>
-        <h1 className="font-black text-pink-600 uppercase tracking-wide text-sm drop-shadow">
-            {areaId?.replace("_", " ")}
-        </h1>
-        <div className="w-11 h-11 rounded-full border-2 border-pink-300 overflow-hidden shadow">
-            <img src={avatar} alt="avatar" className="w-full h-full object-cover"/>
+      {/* DECORACIÓN FONDO (Estrellas) */}
+      <div className="absolute top-0 w-full h-full pointer-events-none">
+        <div className="absolute top-20 left-10 w-1 h-1 bg-white rounded-full animate-pulse"></div>
+        <div className="absolute bottom-40 right-10 w-2 h-2 bg-purple-400 rounded-full blur-[2px] animate-pulse"></div>
+        <div className="absolute top-1/2 left-1/4 w-96 h-96 bg-cyan-900/20 rounded-full blur-[100px]"></div>
+      </div>
+
+      {/* HEADER FLOTANTE */}
+      <div className="sticky top-4 z-40 w-full max-w-md px-4">
+        <div className="bg-slate-900/80 backdrop-blur-md border border-white/20 rounded-full p-2 pl-4 flex items-center justify-between shadow-2xl">
+          <button 
+            onClick={() => router.back()}
+            className="p-2 rounded-full bg-white/10 hover:bg-white/20 text-white transition hover:scale-105"
+          >
+              <ArrowLeft className="w-5 h-5" />
+          </button>
+          
+          <h1 className="font-black text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400 uppercase tracking-widest text-sm drop-shadow-md">
+              {areaId?.replace("_", " ")}
+          </h1>
+          
+          <div className="w-10 h-10 rounded-full border-2 border-cyan-500 shadow-[0_0_10px_rgba(6,182,212,0.5)] overflow-hidden">
+              <img src={avatar} alt="avatar" className="w-full h-full object-cover bg-slate-800"/>
+          </div>
         </div>
       </div>
 
-      {/* MAPA */}
+      {/* MAPA DE NODOS */}
       <div className="flex-1 w-full max-w-md p-8 pb-32 mt-4 relative">
-        <div className="flex flex-col items-center gap-12">
+        <div className="flex flex-col items-center gap-16 relative">
 
-            {/* Línea pastel */}
-            <div className="absolute top-10 bottom-20 w-1 bg-pink-200/60 -z-10 rounded-full"></div>
+            {/* LÍNEA CONECTORA (RAYO LÁSER) */}
+            {/* Un gradiente vertical que conecta todo */}
+            <div className="absolute top-10 bottom-20 w-1 bg-gradient-to-b from-transparent via-cyan-500/50 to-transparent -z-10 shadow-[0_0_15px_rgba(6,182,212,0.5)]"></div>
 
             {nodosVisibles.map((nodo, index) => {
                 const Icono = nodo.icono;
-                let translateClass = index % 2 === 0 ? "-translate-x-8" : "translate-x-8";
+                // Zig-zag suave
+                let translateClass = index % 2 === 0 ? "-translate-x-10" : "translate-x-10";
 
                 return (
-                    <div key={nodo.id} className={`flex flex-col items-center ${translateClass}`}>
+                    <div key={nodo.id} className={`flex flex-col items-center ${translateClass} relative group`}>
+                        
                         <button
                             onClick={() => handleNodeClick(nodo)}
-                            className={`group relative w-24 h-24 rounded-full flex items-center justify-center 
-                                transition-all duration-150 active:translate-y-2 active:border-b-0
-                                border-b-[8px] shadow-xl z-10
+                            className={`
+                                relative w-24 h-24 rounded-full flex items-center justify-center 
+                                transition-all duration-300 active:scale-95
+                                border-2 border-white/30 z-10
                                 ${nodo.color}
-                                scale-105 hover:scale-110
+                                hover:scale-110 hover:brightness-110
                             `}
                         >
+                            {/* Brillo interior */}
+                            <div className="absolute inset-0 rounded-full bg-gradient-to-br from-white/40 to-transparent pointer-events-none"></div>
+
+                            {/* Etiqueta "Colección" si es carpeta */}
                             {nodo.tipo === "carpeta" && (
-                                <div className="absolute -top-3 bg-white text-pink-600 text-[10px] font-bold px-2 py-0.5 rounded-full border border-pink-200 shadow-sm uppercase tracking-wider">
-                                    Colección
+                                <div className="absolute -top-4 bg-slate-900 text-cyan-400 text-[9px] font-bold px-2 py-0.5 rounded border border-cyan-500/50 shadow-[0_0_10px_rgba(6,182,212,0.4)] uppercase tracking-wider">
+                                    DATA
                                 </div>
                             )}
 
-                            <Icono className="w-10 h-10 text-white drop-shadow-md" />
+                            <Icono className="w-10 h-10 text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.5)] z-20" />
 
                             {nodo.tipo === "juego" && renderEstadoJuego(nodo.id)}
                         </button>
 
-                        <span className="mt-2 font-bold text-pink-600 text-sm bg-white/80 px-2 py-0.5 rounded-lg backdrop-blur-sm">
+                        {/* Etiqueta de Nombre estilo Holograma */}
+                        <div className="
+                            mt-4 px-3 py-1 rounded bg-slate-900/90 border border-white/10 backdrop-blur-sm
+                            text-center font-bold text-gray-200 text-xs tracking-wide shadow-lg
+                            group-hover:border-cyan-500/50 group-hover:text-cyan-300 transition-colors
+                        ">
                             {nodo.nombre}
-                        </span>
+                        </div>
                     </div>
                 );
             })}
         </div>
       </div>
 
-      {/* MODAL FONEKIDS */}
+      {/* MODAL FONEKIDS (Estilo Terminal Holográfica) */}
       {carpetaAbierta && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
-            <div className="bg-white w-full max-w-sm rounded-3xl shadow-2xl overflow-hidden border-4 border-pink-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+            <div className="
+                bg-slate-900/90 w-full max-w-sm rounded-3xl overflow-hidden 
+                border border-white/20 shadow-[0_0_50px_rgba(124,58,237,0.3)]
+                backdrop-blur-xl
+            ">
 
-                <div className="p-6 text-center text-white rounded-t-3xl" style={{ background: "linear-gradient(135deg, #F9A8D4, #FECACA)" }}>
-                    <h2 className="text-2xl font-black uppercase tracking-wide drop-shadow">
+                {/* Header del Modal */}
+                <div className="p-6 text-center relative bg-gradient-to-b from-indigo-900/50 to-transparent border-b border-white/10">
+                    <button 
+                        onClick={() => setCarpetaAbierta(null)} 
+                        className="absolute top-4 right-4 text-white/50 hover:text-white transition"
+                    >
+                        <X className="w-6 h-6" />
+                    </button>
+                    
+                    <h2 className="text-2xl font-black uppercase tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-purple-400">
                         {carpetaAbierta.nombre}
                     </h2>
-                    <p className="text-white/80 text-sm font-medium mt-1">Elige un nivel</p>
+                    <p className="text-cyan-200/60 text-xs font-mono mt-1 tracking-wider">SELECCIONA MÓDULO</p>
                 </div>
 
-                <div className="p-4 flex flex-col gap-3 max-h-[60vh] overflow-y-auto">
+                {/* Lista de Juegos */}
+                <div className="p-4 flex flex-col gap-3 max-h-[60vh] overflow-y-auto custom-scrollbar">
                     {carpetaAbierta.contenido?.map((subJuego) => (
                         <button
                             key={subJuego.id}
                             onClick={() => router.push(`/juegos/jugar/${subJuego.id}`)}
-                            className="flex items-center gap-4 p-4 rounded-xl border-2 border-pink-100 hover:bg-pink-50 transition shadow-sm justify-between"
+                            className="
+                                group flex items-center gap-4 p-4 rounded-xl 
+                                bg-white/5 hover:bg-white/10 border border-white/5 hover:border-cyan-500/50
+                                transition-all duration-200 justify-between
+                            "
                         >
                             <div className="flex items-center gap-4">
-                                <div className="w-10 h-10 bg-pink-200 rounded-full flex items-center justify-center text-pink-700 shadow-inner">
-                                    <Play className="w-5 h-5" />
+                                <div className="
+                                    w-10 h-10 rounded-full flex items-center justify-center 
+                                    bg-indigo-600/20 text-indigo-400 group-hover:bg-cyan-500/20 group-hover:text-cyan-400
+                                    transition-colors
+                                ">
+                                    <Play className="w-5 h-5 fill-current" />
                                 </div>
-                                <div>
-                                    <h3 className="font-bold text-pink-700">{subJuego.nombre}</h3>
-                                    <p className="text-xs text-pink-400 font-bold uppercase">Toca para jugar</p>
+                                <div className="text-left">
+                                    <h3 className="font-bold text-gray-200 group-hover:text-white">{subJuego.nombre}</h3>
+                                    <p className="text-[10px] text-gray-500 group-hover:text-cyan-400 font-mono uppercase">Iniciar simulación</p>
                                 </div>
                             </div>
 
                             {obtenerPuntaje(subJuego.id) && (
-                                <span className="bg-emerald-100 text-emerald-700 font-bold text-sm px-2 py-1 rounded-lg">
+                                <span className="bg-emerald-900/50 border border-emerald-500/30 text-emerald-400 font-mono text-xs px-2 py-1 rounded">
                                     {obtenerPuntaje(subJuego.id)?.aciertos}/{obtenerPuntaje(subJuego.id)?.total}
                                 </span>
                             )}
@@ -276,12 +323,9 @@ function MapaContent() {
                     ))}
                 </div>
 
-                <div className="p-4 bg-pink-50 border-t border-pink-100">
-                    <button 
-                      onClick={() => setCarpetaAbierta(null)} 
-                      className="w-full py-3 rounded-xl font-bold text-pink-600 hover:bg-pink-100 transition">
-                        Cerrar
-                    </button>
+                {/* Footer Modal */}
+                <div className="p-4 bg-black/20 border-t border-white/5 text-center">
+                    <p className="text-[10px] text-white/20 font-mono">SYSTEM READY</p>
                 </div>
             </div>
         </div>
